@@ -5,7 +5,6 @@
 This is a Python app that uses the [Bottle framework](http://bottlepy.org/docs/dev/) and the following services:
 
 -   MongoDB (backend database)
--   Twilio (to send text messages)
 		
 ## For more info ##
 
