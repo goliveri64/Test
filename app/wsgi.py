@@ -53,21 +53,13 @@ from pymongo import Connection
 from BeautifulSoup import BeautifulSoup
 import httplib2
 
-from twilio.rest import TwilioRestClient
-
 # Configs from BlueMix 
 vcap_config = os.environ.get('VCAP_SERVICES')
 decoded_config = json.loads(vcap_config)
 
 for key, value in decoded_config.iteritems():
 	if key.startswith('mongodb'):
-		mongo_creds = decoded_config[key][0]['credentials']
-	if decoded_config[key][0]['name'].startswith('Twilio'):
-		twilio_creds = decoded_config[key][0]['credentials']
-
-twilio_authToken = twilio_creds['authToken']
-twilio_accountSID = twilio_creds['accountSID']
-twilioClient = TwilioRestClient(twilio_accountSID, twilio_authToken)		
+		mongo_creds = decoded_config[key][0]['credentials']	
 
 mongo_host = mongo_creds['hostname']
 mongo_port = int(mongo_creds['port'])
@@ -121,17 +113,12 @@ def getCurrentPrice(item):
 			
 			itemCollection.update({'url': item["url"]},{"$set" : {'price':price}})
 			
-			sendTextWithMessage("The current price of %s is %s" % (item["name"], price))
 			return bottle.template('currentPrice', price=price)
 		
 		else:
 			return bottle.template('currentPriceError')
 	except:
 		return bottle.template('currentPriceError')
-	
-# Send a text with the given message
-def sendTextWithMessage(message):
-	message = twilioClient.messages.create(to="+17576421545", from_="+17573376537", body=message)
 
 # Saves the item info in the database
 @bottle.post('/recordItemInfo')
