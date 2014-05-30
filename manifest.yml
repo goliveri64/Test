@@ -6,5 +6,5 @@ applications:
   instances: 1
   url: FabulousPriceFinder${random-word}.${target-base}
   host: FabulousPriceFinder-${random-word}
-  path: .
+  path: ./app
   command: python wsgi.py
