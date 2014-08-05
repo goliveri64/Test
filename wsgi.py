@@ -58,25 +58,17 @@ vcap_config = os.environ.get('VCAP_SERVICES')
 decoded_config = json.loads(vcap_config)
 
 for key, value in decoded_config.iteritems():
-	if key.startswith('mongodb'):
-		mongo_creds = decoded_config[key][0]['credentials']	
+	if key.startswith('mongo'):
+		mongo_creds = decoded_config[key][0]['credentials']
 
-mongo_host = mongo_creds['hostname']
-mongo_port = int(mongo_creds['port'])
-mongo_username = mongo_creds['username']
-mongo_password = mongo_creds['password']
-mongo_db = mongo_creds['db']
-mongo_url = str(mongo_creds['url'])
-mongo_name = mongo_creds['name']
-
-
-
-# --- configuring mongo 
+# ---- configuring mongo ---- 
+mongo_url = str(mongo_creds['uri'])
 client = pymongo.Connection(mongo_url)
+mongo_db = mongo_url.split('@')[1].split('/')[1]
+
 mongoDB = client[mongo_db]
-infcoll = mongoDB.infcollection
 itemCollection = mongoDB["ItemCollection"]
-# ---- end of mongo config ---------- 
+# ---- end of mongo config ---- 
 
 
 #Provide all the static css and js files under the static dir to browser
