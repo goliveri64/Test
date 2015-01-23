@@ -61,14 +61,12 @@ for key, value in decoded_config.iteritems():
 	if key.startswith('mongo'):
 		mongo_creds = decoded_config[key][0]['credentials']
 
-# ---- configuring mongo ---- 
-mongo_url = str(mongo_creds['uri'])
-client = pymongo.Connection(mongo_url)
-mongo_db = mongo_url.split('@')[1].split('/')[1]
-
-mongoDB = client[mongo_db]
-itemCollection = mongoDB["ItemCollection"]
-# ---- end of mongo config ---- 
+		mongo_url = str(mongo_creds['uri'])
+		client = pymongo.Connection(mongo_url)
+		mongo_db = mongo_url.split('@')[1].split('/')[1]
+		
+		mongoDB = client[mongo_db]
+		itemCollection = mongoDB["ItemCollection"]
 
 
 #Provide all the static css and js files under the static dir to browser
