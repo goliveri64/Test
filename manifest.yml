@@ -4,7 +4,6 @@ applications:
   buildpack: python_buildpack
   memory: 256M
   instances: 1
-  url: FabulousPriceFinder${random-word}.${target-base}
   host: FabulousPriceFinder-${random-word}
   path: .
   command: python wsgi.py
