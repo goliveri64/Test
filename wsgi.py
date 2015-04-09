@@ -63,7 +63,7 @@ for key, value in decoded_config.iteritems():
 
 		mongo_url = str(mongo_creds['uri'])
 		client = pymongo.Connection(mongo_url)
-		mongo_db = mongo_url.split('@')[1].split('/')[1]
+		mongo_db = mongo_url.split('@')[1].split('/')[1].split('?')[0]
 		
 		mongoDB = client[mongo_db]
 		itemCollection = mongoDB["ItemCollection"]
