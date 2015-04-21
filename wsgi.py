@@ -53,20 +53,48 @@ from pymongo import Connection
 from BeautifulSoup import BeautifulSoup
 import httplib2
 
+import couchdb
+import pprint
+
 # Configs from BlueMix 
 vcap_config = os.environ.get('VCAP_SERVICES')
 decoded_config = json.loads(vcap_config)
 
-for key, value in decoded_config.iteritems():
-	if key.startswith('mongo'):
-		mongo_creds = decoded_config[key][0]['credentials']
+pprint.pprint("******************** about to get values")
+pprint.pprint(decoded_config)
+print "*************decoded config: %s" % (decoded_config)
 
-		mongo_url = str(mongo_creds['uri'])
-		client = pymongo.Connection(mongo_url)
-		mongo_db = mongo_url.split('@')[1].split('/')[1].split('?')[0]
+for key, value in decoded_config.iteritems():
+	if key.startswith('cloudant'):
+		pprint.pprint("******************** key starts with cloudant")
+		cloudant_creds = decoded_config[key][0]['credentials']
+		print "*************cloudant_creds: %s" % (cloudant_creds)
+		cloudant_url = str(cloudant_creds['url'])
+		print "*************mongo_url: %s" % (cloudant_url)
 		
-		mongoDB = client[mongo_db]
-		itemCollection = mongoDB["ItemCollection"]
+		cloudant_username = str(cloudant_creds['username'])
+		print "*************cloudant_username: %s" % (cloudant_username)
+		
+		cloudant_password = str(cloudant_creds['password'])
+		print "*************cloudant_username: %s" % (cloudant_password)
+		
+		couch = couchdb.Server(cloudant_url)
+		print "*************couch: %s" % (couch)
+		
+		couch.resource.credentials = (cloudant_username, cloudant_password)
+		print "*************config complete"
+		
+		try: 
+			print "*************inside try"
+			itemCollection = couch.create('itemcollection')
+			print "*************itemcollection created"
+		
+		except:
+			print "*************inside except"
+			itemCollection = couch['itemcollection']
+			print "*************itemcollection access"
+	
+
 
 
 #Provide all the static css and js files under the static dir to browser

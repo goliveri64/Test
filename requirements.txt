@@ -2,3 +2,4 @@ bottle
 ./mongo-python-driver-master
 beautifulsoup
 httplib2
+couchdb
