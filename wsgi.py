@@ -61,10 +61,6 @@ import urllib
 vcap_config = os.environ.get('VCAP_SERVICES')
 decoded_config = json.loads(vcap_config)
 
-pprint.pprint("******************** about to get values")
-pprint.pprint(decoded_config)
-print "*************decoded config: %s" % (decoded_config)
-
 dbname = "fabulous-price-finder"
 account = None
 
@@ -85,8 +81,6 @@ for key, value in decoded_config.iteritems():
 		
 		response = db.put()
 		print response.json
-	
-
 
 
 #Provide all the static css and js files under the static dir to browser
@@ -118,8 +112,6 @@ def getCurrentPrice(item):
 	try: 			
 		http = httplib2.Http()
 		status, page = http.request(urllib.unquote_plus(item["url"]))
-		pprint.pprint("******************** url")
-		pprint.pprint(url)
 		soup = BeautifulSoup(page)
 		price = soup.find(id=item["idToCheck"]).string	
 		
@@ -162,7 +154,6 @@ def displayData():
 		z.append(doc['doc'])
 		pass
 	cursor = list(z)
-	pprint.pprint(cursor)
 	totinf = int(len(cursor))
 
 	return bottle.template ('dbdump',totinf=totinf,cursor=cursor)
@@ -171,15 +162,10 @@ def displayData():
 @bottle.post('/clearall')
 def clearAll():
 	# destroy DB
-	pprint.pprint("******************** about to delete db")
 	del account[dbname]
 	# recreate DB
-	# bug: the db is not getting recreated right now
-	pprint.pprint("******************** about to recreate db")
-	pprint.pprint(account)
-	pprint.pprint(dbname)
+	# bug: the db is not getting recreated 
 	db = account.database(dbname)
-	pprint.pprint("******************** finshed creating db")
 	return bottle.template ('dbdump',totinf=0,cursor=[])
 
 
@@ -195,7 +181,6 @@ def removeSelected():
 	for doc in view.iter(params={'include_docs': True}):
 		if (doc['doc']['url'] == s):
 			rev = doc['doc']['_rev']
-			#Bug this gives a 404 instead of deleting
 			del_doc.delete(rev).raise_for_status()
 			
 	bottle.redirect('/displayall')

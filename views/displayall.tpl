@@ -93,11 +93,13 @@
   	<br>
   <div style="text-align:center">
   	<!-- </form> -->
+  	
+  	<!-- unable to get Delete All to work with cloudant, so temporarily removing this feature
   	<p style="text-align:center">
   		<form action="/clearall" method="post">
   		<input type="submit" value="Delete All Records" class="btn btn-danger">
   		</form>
-	</p>
+	</p> -->
 	 
   </div>
   
