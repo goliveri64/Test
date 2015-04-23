@@ -46,9 +46,6 @@
 import bottle
 from bottle import *
 import os,sys,logging, traceback, json, string, urllib, urllib2
-import pymongo
-from pymongo import *
-from pymongo import Connection
 
 from BeautifulSoup import BeautifulSoup
 import httplib2

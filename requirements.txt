@@ -1,6 +1,4 @@
 bottle
-./mongo-python-driver-master
-beautifulsoup
+BeautifulSoup
 httplib2
 cloudant
-urllib
