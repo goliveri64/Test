@@ -1,6 +1,7 @@
+% import urllib 
 % for j in range(0, totinf):
 %   print cursor[j]
-%   url = cursor[j]['url']
+%   url = urllib.unquote_plus(cursor[j]['url'])
 %   name = cursor[j]['name']
 %   idToCheck = cursor[j]['idToCheck']
 
